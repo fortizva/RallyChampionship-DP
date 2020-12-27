@@ -20,6 +20,6 @@ public class PilotoExperimentado extends PilotoAbstracto
     }
     
     public double getDestreza(){
-        return (((super.getPuntosConcentracion()+3)/130)*1.03);
+        return (((this.getConcentracion().getValor()+3)/130)*1.03);
     }
 }

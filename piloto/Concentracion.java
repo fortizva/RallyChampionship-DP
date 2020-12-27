@@ -28,7 +28,7 @@ public enum Concentracion
     /*
      * Devuelve el valor almacenado en la concentracion.
      */
-    public double getPuntos(){
+    public double getValor(){
         return this.concentracion;
     }
     /*
@@ -36,7 +36,7 @@ public enum Concentracion
      */
     @Override
     public String toString(){
-        return this.getNombre() + "(original: "+ this.getPuntos() +")";
+        return this.getNombre() + "("+ this.getValor() +")";
     }
     
 }

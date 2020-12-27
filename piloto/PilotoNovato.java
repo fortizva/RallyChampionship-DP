@@ -1,25 +1,28 @@
 package piloto;
 
+import coche.Coche;
 
 /**
  * Write a description of class PilotoNovato here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Pablo Rodriguez Mancha
+ * @author Francisco Javier Ortiz Valverde
+ * @version 20/21
  */
 public class PilotoNovato extends PilotoAbstracto
 {
-
-    /**
-     * Constructor for objects of class PilotoNovato
-     */
-    public PilotoNovato(Piloto piloto, String nombre_piloto)
-    {
-        super(piloto, nombre_piloto);
+    
+    public PilotoNovato(String nombre, Concentracion concentracion){
+        super(nombre, concentracion);
     }
     
+    public PilotoNovato(String nombre, Concentracion concentracion, Coche coche){
+        super(nombre, concentracion, coche);
+    }
+    
+    @Override
     public double getDestreza(){
-        return ((super.getPuntosConcentracion()*0.97)/120 - 0.3);
+        return ((this.getConcentracion().getValor()*0.97)/120 - 0.03);
     }
 
 }

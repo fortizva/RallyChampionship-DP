@@ -19,7 +19,7 @@ public class PilotoEstrella extends PilotoAbstracto
     }
     
     public double getDestreza(){
-        return ((((super.getPuntosConcentracion()+6)/140)*1.06)+0.05);
+        return ((((this.getConcentracion().getValor()+6)/140)*1.06)+0.05);
     }
 
 }

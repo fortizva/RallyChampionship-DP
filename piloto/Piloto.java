@@ -1,63 +1,50 @@
 package piloto;
 
+import coche.Coche;
+
 /**
- * Write a description of class Piloto here.
+ * Piloto que conducirá en las carreras
  * 
  * @author Pablo Rodriguez Mancha
- * @version (a version number or a date)
+ * @version 20/21
  */
 
-public abstract class Piloto
+public interface Piloto
 {
-    private String nombre;
-    private double destreza;
-    private Concentracion concentracionPiloto;
-    //private Coche cochePiloto;
-   
-
-    public Piloto(String nombre, double destreza, Concentracion concentracionPiloto)
-    {
-    this.nombre = nombre;
-    this.concentracionPiloto = concentracionPiloto;
-    //this.CochePiloto = CochePiloto;
-    this.destreza = destreza;
-    }
-    /*
+    /**
      * Devuelve el nombre del piloto.
+     * 
+     * @return Nombre del piloto.
      */
-    public String getNombre(){
-        return this.nombre;
-    }
-    /*
+    public String getNombre();
+    
+    /**
      * Asigna un nombre al piloto.
+     * 
+     * @param nombre Nombre del piloto.
      */
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    /*
+    public void setNombre(String nombre);
+    
+    /**
      * Devuelve la destreza de un piloto.
      */
-    public double getDestreza(){
-        return this.destreza;
-    }
-    /*
-     * Asigna una destreza a un piloto.
-     */
-    public void setDestreza(double destreza){
-        this.destreza = destreza;
-    }
-    /*
+    public double getDestreza();
+    
+    /**
      * Devuelve la concentracion del piloto.
      */
-    public Concentracion getConcentracion(){
-        return this.concentracionPiloto;
-    }
-    /*
+    public Concentracion getConcentracion();
+    
+    /**
      * Asigna una concentracion al piloto.
      */
-    public void setConcentracion(Concentracion concentracionPiloto){
-        this.concentracionPiloto = concentracionPiloto;
-    }
-
-
+    public void setConcentracion(Concentracion concentracionPiloto);
+    
+    public void setCoche(Coche coche);
+    
+    public Coche getCoche();
+    
+    public void setDescalificado(boolean descalificado);
+    
+    public boolean isDescalificado();
 }
