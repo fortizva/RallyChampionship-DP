@@ -67,7 +67,6 @@ public interface Coche
      * @param circuito Circuito en el que está corriendo el coche.
      * @return Velocidad real del coche.
      */
-    // TODO: Cambiar tipo double por Piloto tras implementarlo
     public double getVelocidadReal(double destreza, Circuito circuito);
 
     /**
@@ -77,12 +76,10 @@ public interface Coche
      * @param circuito Circuito en el que está corriendo el coche.
      * @return Tiempo en minutos para completar la carrera actual.
      */
-    // TODO: Cambiar tipo double por Piloto tras implementarlo
     public double getTiempo(double destreza, Circuito circuito);
 
     /**
      * Reduce el nivel de combustible del coche en función de los minutos que haya estado compitiendo.
      */
-    // TODO: Cambiar tipo double por Piloto tras implementarlo
     public void consumirCombustible(double destreza, Circuito circuito);
 }

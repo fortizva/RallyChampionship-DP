@@ -15,7 +15,7 @@ public class CocheRapido extends AbstractCoche
      */
     private final static double NITRO = 80.0;
     /**
-     * Porcentaje máximo a aumentra
+     * Porcentaje máximo a aumentar
      */
     private final static double AUMENTO_MAXIMO = 20;
     private double nitroActual;
