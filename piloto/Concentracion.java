@@ -13,6 +13,7 @@ public enum Concentracion
     NORMAL("NORMAL", 100.0),
     CONCENTRADO("CONCENTRADO", 110.0),
     ZEN("ZEN", 120.0);
+
     
     private final String nombre;
     private final double concentracion;
@@ -21,7 +22,7 @@ public enum Concentracion
         this.nombre  = nombre;
         this.concentracion = concentracion;
     }
-    
+
     /**
      * Devuelve el nombre de la concentración.
      * 
@@ -39,7 +40,7 @@ public enum Concentracion
     public double getValor(){
         return this.concentracion;
     }
-    
+
     @Override
     public String toString(){
         return this.getNombre() + "("+ this.getValor() +")";

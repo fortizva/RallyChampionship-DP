@@ -5,6 +5,7 @@ import coche.Coche;
 /**
  * Piloto con baja destreza.
  * 
+ * @author Pablo Rodriguez Mancha
  * @author Francisco Javier Ortiz Valverde
  * @version 20/21
  */

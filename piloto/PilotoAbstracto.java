@@ -35,7 +35,7 @@ public abstract class PilotoAbstracto implements IPiloto
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-    
+
     public abstract double getDestreza();
     
     public Concentracion getConcentracion(){
@@ -45,7 +45,7 @@ public abstract class PilotoAbstracto implements IPiloto
     public void setConcentracion(Concentracion concentracion){
         this.concentracion = concentracion;
     }
-    
+
     public Coche getCoche(){
         return this.coche;
     }
