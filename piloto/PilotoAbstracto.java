@@ -1,6 +1,8 @@
 package piloto;
+import java.util.ArrayList;
 
 import coche.Coche;
+import circuito.Circuito;
 
 /**
  * Write a description of class PilotoAbstracto here.
@@ -14,12 +16,15 @@ public abstract class PilotoAbstracto implements IPiloto
 {
     private String nombre;
     private Concentracion concentracion;
+    private Concentracion concentracionActual;
     private Coche coche;
     private boolean descalificado;
+    private ArrayList <Resultados> resultados;
     
     public PilotoAbstracto(String nombre, Concentracion concentracion){
         this.nombre = nombre;
         this.concentracion = concentracion;
+        this.concentracionActual = concentracion;
         this.descalificado = false;
     }
     
@@ -45,6 +50,10 @@ public abstract class PilotoAbstracto implements IPiloto
     public void setConcentracion(Concentracion concentracion){
         this.concentracion = concentracion;
     }
+    
+    public Concentracion getConcentracionActual(){
+        return this.concentracionActual;
+    }
 
     public Coche getCoche(){
         return this.coche;
@@ -58,6 +67,46 @@ public abstract class PilotoAbstracto implements IPiloto
         this.descalificado = descalificado;
     }
     
+     public int getTiempoCarrera(Circuito circuito){
+         int tiempo = 0;
+         
+         
+         return tiempo;
+    }
+    public boolean isCompletaCarrera(Circuito circuito){
+        return false;
+    }
+    
+    public boolean isSinCombustible(){
+        if(this.getCoche().getCombustibleActual() <= 0)
+            return false;
+        else{
+            return true;
+        }
+    }
+    
+    public int getMinPos(int pos){
+        return this.resultados.get(pos).getMinutosCarrera();
+    }
+    
+    public double restarCombustible(int pos){
+        return this.getCoche().getCombustibleActual() - getMinPos(pos);
+    }
+    
+    /*
+    public double restarCombustible(){
+        
+        double comb = this.getCoche().getCombustibleActual();
+        boolean tieneComb = true;
+        
+        for(int i = 0; i<resultados.size() && tieneComb; i++){
+            comb = this.getCoche().getCombustibleActual() - getMinPos(i);
+                if(comb <= 0)
+                tieneComb = false;
+        }  
+        return comb;
+    }
+    */
     public boolean isDescalificado(){
         return this.descalificado;
     }

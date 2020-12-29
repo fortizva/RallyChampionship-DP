@@ -5,6 +5,7 @@ import coche.Coche;
 /**
  * Piloto con mayor destreza.
  * 
+ * @author Pablo Rodriguez Mancha
  * @author Francisco Javier Ortiz Valverde
  * @version 20/21
  */
@@ -28,7 +29,7 @@ public class PilotoEstrella extends PilotoAbstracto
     
     @Override
     public double getDestreza(){
-        return ((((this.getConcentracion().getValor()+6)/140)*1.06)+0.05);
+        return ((((this.getConcentracionActual().getValor()+6)/140)*1.06)+0.05);
     }
 
 }

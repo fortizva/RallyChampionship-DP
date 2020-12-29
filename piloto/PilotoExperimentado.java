@@ -5,6 +5,7 @@ import coche.Coche;
 /**
  * Piloto con cierta destreza.
  * 
+ * @author Pablo Rodriguez Mancha
  * @author Francisco Javier Ortiz Valverde
  * @version 20/21
  */
@@ -27,6 +28,6 @@ public class PilotoExperimentado extends PilotoAbstracto
     
     @Override
     public double getDestreza(){
-        return (((this.getConcentracion().getValor()+3)/130)*1.03);
+        return (((this.getConcentracionActual().getValor()+3)/130)*1.03);
     }
 }
