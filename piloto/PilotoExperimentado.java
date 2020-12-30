@@ -28,6 +28,6 @@ public class PilotoExperimentado extends PilotoAbstracto
     
     @Override
     public double getDestreza(){
-        return (((this.getConcentracionActual().getValor()+3)/130)*1.03);
+        return (((this.getConcentracionActual()+3)/130)*1.03);
     }
 }

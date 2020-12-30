@@ -43,9 +43,15 @@ public interface IPiloto
     /**
      * Devuelve la concentracion actual de un piloto.
      * 
-     * @return concentracionActual Concentracion actual del piloto.
+     * @return Concentracion actual del piloto.
      */
-    public Concentracion getConcentracionActual();
+    public double getConcentracionActual();
+    /**
+     * Actualiza la puntuacion de concentracion de un piloto.
+     * 
+     * @param puntos Puntos que sobreescribiran el valor de la concentracion de un piloto.
+     */
+    public void setConcentracionActual(double puntos);
     /**
      * Establece la concentracion al piloto.
      * 
@@ -93,15 +99,30 @@ public interface IPiloto
       * @return True si no hay combustible para terminar la carrera/ False si si queda combustible para acabarla.
       */
      public boolean isSinCombustible();
-     
+     /**
+      * Nos indica si un piloto tiene suficiente concentracion para acabar un circuito.
+      * 
+      * @return True si no tiene suficiente concentracion/False en caso contrario.
+      */
+     public boolean isSinConcentracion();
      /**
       *Devuelve el tiempo que ha hecho un piloto en una carrera.
       *
       *@return minutos de la carrera de un piloto.
       */
      public int getMinPos(int pos);
-        
-     
+     /**
+      * Devuelve la puntuacion de una posicion concreta del ArrayList Resultados.
+      * 
+      * @return los puntos de la posicion del ArrayList introducida.
+      */
+     public double getPuntosPos(int pos);
+     /**
+      * Asingna una puntuacion a una posicion del ArrayList Resultados
+      * 
+      * @param pos posicion del vector donde se insertara la puntuacion.
+      */
+     public void setPuntosPos(int pos, int puntos);
      /**
       * Resta al combustible de un coche, el tiempo que hizo en una carrera.
       * 
@@ -109,10 +130,16 @@ public interface IPiloto
       * @return el combustible que le queda al coche tras la carrera.
       */
      public double restarCombustible(int pos);
-    /**
-     * Devuelve si el piloto está descalificado.
-     * 
-     * @return Estado del piloto.
-     */
-    public boolean isDescalificado();
+     /**
+      * Resta el combustible y la concentracion que consume cada carrera al coche y a su piloto respectivamente.
+      * 
+      * @param circuito Circuito que recorre el piloto.
+      */
+     public void carrera(Circuito circuito);
+     /**
+      * Devuelve si el piloto está descalificado.
+      * 
+      * @return Estado del piloto.
+      */
+     public boolean isDescalificado();
 }

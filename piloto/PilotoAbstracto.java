@@ -16,7 +16,7 @@ public abstract class PilotoAbstracto implements IPiloto
 {
     private String nombre;
     private Concentracion concentracion;
-    private Concentracion concentracionActual;
+    private double concentracionActual;
     private Coche coche;
     private boolean descalificado;
     private ArrayList <Resultados> resultados;
@@ -24,8 +24,9 @@ public abstract class PilotoAbstracto implements IPiloto
     public PilotoAbstracto(String nombre, Concentracion concentracion){
         this.nombre = nombre;
         this.concentracion = concentracion;
-        this.concentracionActual = concentracion;
+        this.concentracionActual = concentracion.getValor();
         this.descalificado = false;
+        resultados = new ArrayList<Resultados>();
     }
     
     public PilotoAbstracto(String nombre, Concentracion concentracion, Coche coche){
@@ -51,10 +52,14 @@ public abstract class PilotoAbstracto implements IPiloto
         this.concentracion = concentracion;
     }
     
-    public Concentracion getConcentracionActual(){
+    public double getConcentracionActual(){
         return this.concentracionActual;
     }
-
+    
+    public void setConcentracionActual(double puntos){
+        this.concentracionActual = puntos;
+    }
+    
     public Coche getCoche(){
         return this.coche;
     }
@@ -67,7 +72,7 @@ public abstract class PilotoAbstracto implements IPiloto
         this.descalificado = descalificado;
     }
     
-     public int getTiempoCarrera(Circuito circuito){
+    public int getTiempoCarrera(Circuito circuito){
          int tiempo = 0;
          
          
@@ -78,21 +83,32 @@ public abstract class PilotoAbstracto implements IPiloto
     }
     
     public boolean isSinCombustible(){
-        if(this.getCoche().getCombustibleActual() <= 0)
-            return false;
-        else{
-            return true;
-        }
+        return (this.getCoche().getCombustibleActual() <= 0);
+    }
+    
+    public boolean isSinConcentracion(){
+        return (this.getConcentracionActual() <= 0);
     }
     
     public int getMinPos(int pos){
         return this.resultados.get(pos).getMinutosCarrera();
     }
     
+    public double getPuntosPos(int pos){
+        return this.resultados.get(pos).getPuntos();
+    }
+    
+    public void setPuntosPos(int pos, int puntos){
+        this.resultados.get(pos).setPuntos(puntos);
+    }
     public double restarCombustible(int pos){
         return this.getCoche().getCombustibleActual() - getMinPos(pos);
     }
     
+    public void carrera(Circuito circuito){        
+       this.getCoche().consumirCombustible(this.getDestreza(), circuito); 
+       this.setConcentracionActual(this.getConcentracionActual() - this.getCoche().getTiempo(this.getDestreza(), circuito));
+    }
     /*
     public double restarCombustible(){
         

@@ -29,7 +29,7 @@ public class PilotoEstrella extends PilotoAbstracto
     
     @Override
     public double getDestreza(){
-        return ((((this.getConcentracionActual().getValor()+6)/140)*1.06)+0.05);
+        return ((((this.getConcentracionActual()+6)/140)*1.06)+0.05);
     }
 
 }
