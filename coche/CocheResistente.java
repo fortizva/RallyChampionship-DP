@@ -25,14 +25,13 @@ public class CocheResistente extends AbstractCoche
     }
     
     @Override
-    public void consumirCombustible(double destreza, Circuito circuito){
-        double tiempo = getTiempo(destreza, circuito);
-        if(Math.abs(this.reservaActual - 0.0d)>= 0.000001 && tiempo > getCombustibleActual()){
+    public void consumirCombustible(double minutos){
+        if(Math.abs(this.reservaActual - 0.0d)>= 0.000001 && minutos > getCombustibleActual()){
             setCombustibleActual(getCombustibleActual() + this.reservaActual);
             this.reservaActual = 0.0d;
         }
         
-        setCombustibleActual(getCombustibleActual() - tiempo);
+        setCombustibleActual(getCombustibleActual() - minutos);
     }
     
     @Override

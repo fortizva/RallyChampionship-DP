@@ -67,8 +67,8 @@ public abstract class AbstractCoche implements Coche
         return Math.round(((circuito.getDistanciaActual() / getVelocidadReal(destreza, circuito)) * 60)*100d) / 100d;
     }
     
-    public void consumirCombustible(double destreza, Circuito circuito){
-        combustibleActual -= getTiempo(destreza, circuito);
+    public void consumirCombustible(double minutos){
+        combustibleActual -= minutos;
     }
     
     /**

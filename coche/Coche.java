@@ -80,6 +80,8 @@ public interface Coche
 
     /**
      * Reduce el nivel de combustible del coche en función de los minutos que haya estado compitiendo.
+     * 
+     * @param minutos Tiempo en minutos que ha estado corriendo el coche.
      */
-    public void consumirCombustible(double destreza, Circuito circuito);
+    public void consumirCombustible(double minutos);
 }
