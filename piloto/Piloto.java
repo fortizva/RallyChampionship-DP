@@ -86,6 +86,13 @@ public interface Piloto
     public double getTiempo(Circuito circuito);
 
     /**
+     * Devuelve los puntos totales del piloto.
+     * 
+     * @return Puntuación total del piloto.
+     */
+    public int getPuntos();
+    
+    /**
      * Devuelve una lista con los resultados del piloto.
 
      * @return Historial de carreras del piloto.

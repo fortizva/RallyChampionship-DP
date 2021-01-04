@@ -81,6 +81,15 @@ public abstract class PilotoAbstracto implements Piloto
         return this.coche.getTiempo(this.getDestreza(), circuito);
     }
 
+    public int getPuntos(){
+        int puntos = 0;
+        for(Resultado r : this.resultados){
+            puntos += r.getPuntos();
+        }
+
+        return puntos;
+    }
+
     public ArrayList<Resultado> getResultados(){
         return new ArrayList<Resultado>(this.resultados);
     }
