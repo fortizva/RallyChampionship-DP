@@ -6,79 +6,136 @@ import circuito.Circuito;
 import piloto.Piloto;
 
 /**
- * Clase Organizacion que gestionara la competicion.
+ * Singleton Organizacion que gestionara la competición.
  * 
  * @author Pablo Rodriguez Mancha
+ * @author Francisco Javier Ortiz Valverde
  * @version 20/21
  */
-public class Organizacion
+public final class Organizacion
 {
+    private static Organizacion instancia;
+
     private int limiteAbandonos;
     private int limitePilotos;
     private ArrayList <Escuderia> escuderias;
     private ArrayList <Circuito> circuitos;
     private ArrayList <Piloto> pilotosCarrera;
-    
-    public Organizacion(int limiteAbandonos, int limitePilotos)
-    {
+
+    /**
+     * Constructor de una Organizacion vacía.
+     * Por defecto, las reglas de la organización son:
+     * Límite de abandonos: 1
+     * Límite de pilotos: 1
+     */
+    private Organizacion(){
+        this(1, 1);
+    }
+
+    /**
+     * Constructor de Organizacion.
+     * 
+     * @param limiteAbandonos Límite de abandonos por piloto.
+     * @param limitePilotos Límite de pilotos que puede enviar una escudería.
+     */
+    private Organizacion(int limiteAbandonos, int limitePilotos){
         this.limiteAbandonos = limiteAbandonos;
         this.limitePilotos = limitePilotos;
     }
-    
+
     /**
-     * Muestra las escuderias del ArrayList escuderias.
+     * Inicializa los valores de la instancia Organizacion o crea una nueva con los valores dados si no existe.
+     * 
+     * @param limiteAbandonos Límite de abandonos por piloto.
+     * @param limitePilotos Límite de pilotos que puede enviar una escudería.
      */
-    public void mostrarEscuderias(){
-        for(Escuderia e: escuderias){
-            System.out.println(e.toString());
+    private static void inicializar(int limiteAbandonos, int limitePilotos)
+    {
+        if(instancia == null)
+            instancia = new Organizacion(limiteAbandonos, limitePilotos);
+        else{
+            instancia.setLimiteAbandonos(limiteAbandonos);
+            instancia.setLimitePilotos(limitePilotos);
         }
     }
-    
+
     /**
-     * Muestra los circuitos del ArrayList circuitos.
+     * Devuelve la instancia de Organizacion si existe, en caso contrario, crea una vacía.
+     * 
+     * @return Instancia de Organizacion
      */
-     public void mostrarCircuitos(){
+    public static  Organizacion getInstance(){
+        if(instancia == null)
+            instancia = new Organizacion();
+        return instancia;
+    }
+
+    /**
+     * Permite a una escudería inscribirse al campeonato.
+     */
+    public void inscribir(Escuderia escuderia){
+        this.escuderias.add(escuderia);
+    }
+
+    /**
+     * Establece el límite de abandonos por piloto.
+     * 
+     * @param limiteAbandonos Límite de abandonos.
+     */
+    private void setLimiteAbandonos(int limiteAbandonos){
+        this.limiteAbandonos = limiteAbandonos;
+    } 
+
+    /**
+     * Devuelve el límite actual de abandonos por piloto.
+     * 
+     * @return Límite de abandonos por piloto.
+     */
+    public int getLimiteAbandonos(){
+        return this.limiteAbandonos;
+    }
+
+    /**
+     * Establece el límite de pilotos por escudería.
+     * 
+     * @param limitePilotos Límite de pilotos.
+     */
+    private void setLimitePilotos(int limitePilotos){
+        this.limitePilotos = limitePilotos;
+    } 
+
+    /**
+     * Devuelve el límite actual pilotos por escudería.
+     * 
+     * @return Límite de pilotos.
+     */
+    public int getLimitePilotos(){
+        return this.limitePilotos;
+    }
+
+    /**
+     * Muestra los circuitos.
+     */
+    public void mostrarCircuitos(){
+        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        System.out.println("||||||||||||||||||| CIRCUITOS DEL CAMPEONATO |||||||||||||||||||");
+        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
         for(Circuito c: circuitos){
             System.out.println(c.toString());
         }
     }
-    
+
     /**
-     * Muestra los pilotos con sus respectivos coches del ArrayList pilotosCarrera.
+     * Muestra toda la informacion de las escuderias inscritas.
      */
-     public void mostrarPilotosCarrera(){
-        for(Piloto p: pilotosCarrera){
-            System.out.println(p.toString()); System.out.println("\n"); 
-            p.getCoche().toString();   
-        }
-    }
-    
-    /**
-     * Muestra toda la informacion de las escuderias del ArrayList escuderias.
-     */
-    public void mostrarInfoEscuderias(){
+    public void mostrarEscuderias(){
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println("%%%%%%%% ESCUDERÍAS DEL CAMPEONATO %%%%%%%%");
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         for(Escuderia e: escuderias){
-            System.out.println("La escuderia: ");
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println(e.toString());
-            System.out.println("\n"); System.out.println("Formada por los pilotos: ");
-            e.mostrarPilotos();
-            System.out.println("\n"); System.out.println("Formada por los coches: ");
-            e.mostrarCoches();
-            System.out.println("\n"); System.out.println("\n");
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         }
     }
-    
-    /**
-     * 
-     */
-    public void mostrarTodo(){
-        System.out.println("Informacion de las escuderias: "); System.out.println("\n");
-        this.mostrarInfoEscuderias();
-        System.out.println("Lista de los circuitos: "); System.out.println("\n");
-        this.mostrarCircuitos();
-        System.out.println("Pilotos que van a competir en la carrera: "); System.out.println("\n");
-        this.mostrarPilotosCarrera();
-        
-        }
-    
 }

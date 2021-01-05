@@ -26,30 +26,30 @@ public class Escuderia
     {
         this.nombre = nombre;
     }
+
     /**
-     * Devuelve el nombre de la escuderia.
+     * Devuelve el nombre de la escudería.
      * 
-     * @return el nombre de la escuderia.
+     * @return el nombre de la escudería.
      */
     public String getNombre(){
         return this.getNombre();
     }
-    
+
     /**
-     * Asigna un nombre a escuderia.
+     * Asigna un nombre a la escudería.
      * 
-     * @param nombre Nombre de la escuderia.
+     * @param nombre Nombre de la escudería.
      */
-    
-    public void setEscuderia(String nombre){
+    public void setNombre(String nombre){
         this.nombre = nombre;
     }
+
     /**
      * Ordena la lista de pilotos de la escudería según un comparador (o comparadores en caso de usar un comparador anidado).
      * 
      * @param comparador Comparador empleado para ordenar la lista.
      */
-
     public void ordenarPilotos(Comparator<Piloto> comparador){
         Collections.sort(this.pilotos, comparador);
     }
@@ -62,7 +62,7 @@ public class Escuderia
     public void ordenarCoches(Comparator<Coche> comparador){
         Collections.sort(this.coches, comparador);
     }
-    
+
     /**
      * Devuelve la puntuación total de la escudería.
      * 
@@ -75,61 +75,43 @@ public class Escuderia
         }
         return puntos;
     }
-    
+
     /**
-     * Inscribe a la escudería en el torneo.
+     * Inscribe a la escudería en el campeonato.
      */
     public void inscribirse(){
-    
+        Organizacion.getInstance().inscribir(this);
     }
-   
+
     /**
-     * Recorre el ArrayList de pilotos y selecciona el primero que encuentre que no este descalificado segun el orden prestablecido y 
-     * le asigna el primer coche que encuentre con combustible segun el orden prestablecido.
+     * Asigna al primer piloto de la lista sin descalificar el primer coche de la lista con combustible.
      */
-    public void ObtenerParticipantes(){
+    public void obtenerParticipantes(){
         boolean enc = false;
         for(Piloto p : pilotos){
             if(!p.isDescalificado()){
                 for(int i = 0; i < coches.size() && !enc; i++ ){
                     if(coches.get(i).getCombustibleActual() > 0){
-                    p.setCoche(coches.get(i));
-                    enc = true;
-                    //metodo que envie el piloto con el coche a la competicion
+                        p.setCoche(coches.get(i));
+                        enc = true;
                     }
                 }
                 if (!enc)
-                System.out.println("El piloto no tiene ningun coche con combustible para competir. ");
+                    System.out.println("El piloto no tiene ningun coche con combustible para competir. ");
             }
             enc = false;
         }
     }
-    
-    /**
-     * Muestra los atributos de los pilotos almacenados en el ArrayList de pilotos.
-     */
-    public void mostrarPilotos(){
-        for(Piloto p: pilotos){
-            System.out.println(p.toString());
-        }
-    }
-    
-    /**
-     * Muestra los atributos de los coches almacenados en el ArrayList de coches.
-     */
-    public void mostrarCoches(){
-        for(Coche c: coches){
-            System.out.println(c.toString());
-        }
-    }
-    public void mostrarCochePiloto(){
-        
-    }
-    
+
     @Override
     public String toString(){
-        String s;
-        s = "<Escuderia: " + this.getNombre() + "> ";
+        String s = "%%% "+ this.getNombre() +" %%%";
+        for(Piloto p : pilotos){
+            s += p.toString();
+        }
+        for(Coche c : coches){
+            s += c.toString();
+        }
         return s;
     }
 }
