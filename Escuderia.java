@@ -1,8 +1,11 @@
 import piloto.Piloto;
 import coche.Coche;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.TreeSet;
+import java.util.Iterator;
 
 /**
  * Escuderías que organizarán sus coches y pilotos.
@@ -14,8 +17,8 @@ import java.util.Comparator;
 public class Escuderia
 {
     private String nombre;
-    private ArrayList<Piloto> pilotos;
-    private ArrayList<Coche> coches;
+    private TreeSet<Piloto> pilotos;
+    private TreeSet<Coche> coches;
 
     /**
      * Constructor de Escuderias.
@@ -25,6 +28,8 @@ public class Escuderia
     public Escuderia(String nombre)
     {
         this.nombre = nombre;
+        pilotos = new TreeSet<Piloto>();
+        coches = new TreeSet<Coche>();
     }
 
     /**
@@ -51,7 +56,9 @@ public class Escuderia
      * @param comparador Comparador empleado para ordenar la lista.
      */
     public void ordenarPilotos(Comparator<Piloto> comparador){
-        Collections.sort(this.pilotos, comparador);
+        TreeSet <Piloto> aux = new TreeSet<Piloto>(comparador);
+        aux.addAll(this.pilotos);
+        this.pilotos = aux;
     }
 
     /**
@@ -60,7 +67,9 @@ public class Escuderia
      * @param comparador Comparador empleado para ordenar la lista.
      */
     public void ordenarCoches(Comparator<Coche> comparador){
-        Collections.sort(this.coches, comparador);
+        TreeSet <Coche> aux = new TreeSet<Coche>(comparador);
+        aux.addAll(this.coches);
+        this.coches = aux;
     }
 
     /**
@@ -90,9 +99,11 @@ public class Escuderia
         boolean enc = false;
         for(Piloto p : pilotos){
             if(!p.isDescalificado()){
-                for(int i = 0; i < coches.size() && !enc; i++ ){
-                    if(coches.get(i).getCombustibleActual() > 0){
-                        p.setCoche(coches.get(i));
+                Iterator it = coches.iterator();
+                while(it.hasNext() && !enc){
+                    Coche c = (Coche)it.next();
+                    if(c.getCombustibleActual() > 0){
+                        p.setCoche(c);
                         enc = true;
                     }
                 }

@@ -1,4 +1,6 @@
 package piloto;
+
+import java.util.HashMap;
 import java.util.ArrayList;
 
 import coche.Coche;
@@ -19,14 +21,14 @@ public abstract class PilotoAbstracto implements Piloto
     private double concentracionActual;
     private Coche coche;
     private boolean descalificado;
-    private ArrayList <Resultado> resultados;
+    private HashMap <String,Resultado> resultados;
 
     public PilotoAbstracto(String nombre, Concentracion concentracion){
         this.nombre = nombre;
         this.concentracion = concentracion;
         this.concentracionActual = concentracion.getValor();
         this.descalificado = false;
-        resultados = new ArrayList<Resultado>();
+        resultados = new HashMap <String,Resultado>();
     }
 
     public PilotoAbstracto(String nombre, Concentracion concentracion, Coche coche){
@@ -83,19 +85,19 @@ public abstract class PilotoAbstracto implements Piloto
 
     public int getPuntos(){
         int puntos = 0;
-        for(Resultado r : this.resultados){
+        for(Resultado r : this.resultados.values()){
             puntos += r.getPuntos();
         }
 
         return puntos;
     }
 
-    public ArrayList<Resultado> getResultados(){
-        return new ArrayList<Resultado>(this.resultados);
+    public HashMap <String, Resultado> getResultados(){
+        return new HashMap<String, Resultado>(this.resultados);
     }
 
     public void addResultado(Circuito circuito, int puntos){
-        this.resultados.add(new Resultado(circuito.getNombre(), this.coche.getTiempo(this.getDestreza(), circuito), puntos));
+        this.resultados.put(circuito.getNombre(), new Resultado(circuito, this.coche.getTiempo(this.getDestreza(), circuito), puntos));
     }
 
     public void competir(Circuito circuito){

@@ -1,6 +1,6 @@
 package piloto;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import coche.Coche;
 import circuito.Circuito;
 
@@ -97,7 +97,7 @@ public interface Piloto
 
      * @return Historial de carreras del piloto.
      */
-    public ArrayList<Resultado> getResultados();
+    public HashMap<String, Resultado> getResultados();
 
     /**
      * Añade un resultado de carrera al historial del piloto.

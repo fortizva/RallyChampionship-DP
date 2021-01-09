@@ -1,4 +1,5 @@
 package piloto;
+import circuito.Circuito;
 
 /**
  * Objeto que almacena el resultado de una carrera.
@@ -9,7 +10,7 @@ package piloto;
  */
 public class Resultado
 {
-    private String nombre;
+    private Circuito circuito;
     private double minutos;
     private int puntos;
 
@@ -20,9 +21,9 @@ public class Resultado
      * @param minutos Minutos en los que se ha completado la carrera.
      * @param puntos Puntuación obtenida en la carrera
      */
-    public Resultado(String nombre, double minutos, int puntos){
+    public Resultado(Circuito circuito, double minutos, int puntos){
+        this.circuito = circuito;
         this.minutos = minutos;
-        this.nombre = nombre;
     }
 
     /**
@@ -48,8 +49,8 @@ public class Resultado
      * 
      * @return Nombre de la carrera.
      */
-    public String getNombre(){
-        return this.nombre;
+    public Circuito getCircuito(){
+        return this.circuito;
     }
 
     /**
@@ -57,8 +58,8 @@ public class Resultado
      * 
      * @param nombre Nombre de la carrera.
      */
-    public void setNombre(String nombre){
-        this.nombre = nombre;
+    public void setCircuito(Circuito circuito){
+        this.circuito = circuito;
     }
 
     /**

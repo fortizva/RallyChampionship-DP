@@ -41,17 +41,17 @@ public class RallyChampionship
         Coche citroenC3 = new CocheNormal("Citröen C3", Velocidad.RAPIDA, Combustible.ESCASO);
         double destrezaAuriol = 0.78;
         System.out.println(citroenC3.toString());
-        citroenC3.consumirCombustible(destrezaAuriol, circAustralia);
+        //citroenC3.consumirCombustible(destrezaAuriol, circAustralia);
 
         Coche seatAteca = new CocheRapido("Seat Ateca", Velocidad.GUEPARDO, Combustible.GENEROSO);
         double destrezaOgier = 0.82;
         System.out.println(seatAteca.toString());
-        seatAteca.consumirCombustible(destrezaOgier, circAustralia);
+        //seatAteca.consumirCombustible(destrezaOgier, circAustralia);
         
         Coche seatTarraco = new CocheResistente("Seat Tarraco", Velocidad.TORTUGA, Combustible.GENEROSO);
         double destrezaMcRae = 0.93;
         System.out.println(seatTarraco.toString());
-        seatTarraco.consumirCombustible(destrezaMcRae, circAustralia);
+        //seatTarraco.consumirCombustible(destrezaMcRae, circAustralia);
         
     }
 

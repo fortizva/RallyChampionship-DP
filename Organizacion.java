@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import circuito.Circuito;
 import piloto.Piloto;
+import java.util.TreeSet;
 
 /**
  * Singleton Organizacion que gestionara la competición.
@@ -19,8 +20,9 @@ public final class Organizacion
     private int limiteAbandonos;
     private int limitePilotos;
     private ArrayList <Escuderia> escuderias;
-    private ArrayList <Circuito> circuitos;
-    private ArrayList <Piloto> pilotosCarrera;
+    private TreeSet <Circuito> circuitos;
+    private TreeSet <Piloto> pilotosCarrera;
+    private ArrayList <Piloto> pilotosDescalificados;
 
     /**
      * Constructor de una Organizacion vacía.
@@ -41,6 +43,32 @@ public final class Organizacion
     private Organizacion(int limiteAbandonos, int limitePilotos){
         this.limiteAbandonos = limiteAbandonos;
         this.limitePilotos = limitePilotos;
+        escuderias = new ArrayList <Escuderia>();
+        circuitos = new TreeSet <Circuito>();
+        pilotosCarrera = new TreeSet <Piloto>();
+        pilotosDescalificados = new ArrayList <Piloto>(); 
+    }
+    
+    /**
+     * Constructor de Organizacion.
+     * 
+     * @param limiteAbandonos Límite de abandonos por piloto.
+     * @param limitePilotos Límite de pilotos que puede enviar una escudería.
+     */
+    private Organizacion(int limiteAbandonos, int limitePilotos, Comparator<Circuito> comparador){
+        this.limiteAbandonos = limiteAbandonos;
+        this.limitePilotos = limitePilotos;
+        escuderias = new ArrayList <Escuderia>();
+        circuitos = new TreeSet <Circuito>(comparador);
+        pilotosCarrera = new TreeSet <Piloto>(new Comparator <Piloto>()
+        {
+            @Override
+            public int compare(Piloto p1, Piloto p2){
+                return ((Integer)p1.getPuntos()).compareTo(p2.getPuntos()) * (-1);
+            }
+        });
+            
+        pilotosDescalificados = new ArrayList <Piloto>();
     }
 
     /**
