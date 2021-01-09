@@ -94,8 +94,10 @@ public class Escuderia
 
     /**
      * Asigna al primer piloto de la lista sin descalificar el primer coche de la lista con combustible.
+     * 
+     * @return Devuelve true si envia un piloto.
      */
-    public void obtenerParticipantes(){
+    public boolean obtenerParticipantes(){
         boolean enc = false;
         for(Piloto p : pilotos){
             if(!p.isDescalificado()){
@@ -105,13 +107,15 @@ public class Escuderia
                     if(c.getCombustibleActual() > 0){
                         p.setCoche(c);
                         enc = true;
+                        Organizacion.getInstance().enviarPiloto(p);
                     }
                 }
-                if (!enc)
-                    System.out.println("El piloto no tiene ningun coche con combustible para competir. ");
+                if(!enc){
+                    System.out.println("¡¡¡ " + p.getNombre() + " NO ES ENVIADO A LA CARRERA porque su escudería: " + this.getNombre() + " no tiene más coches con combustible disponibles !!! ");
+                }
             }
-            enc = false;
         }
+        return enc;
     }
 
     @Override

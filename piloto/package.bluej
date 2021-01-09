@@ -1,18 +1,18 @@
 #BlueJ package file
-dependency1.from=PilotoExperimentado
+dependency1.from=Piloto
 dependency1.to=Concentracion
 dependency1.type=UsesDependency
-dependency2.from=PilotoNovato
-dependency2.to=Concentracion
+dependency2.from=Piloto
+dependency2.to=Resultado
 dependency2.type=UsesDependency
 dependency3.from=PilotoEstrella
 dependency3.to=Concentracion
 dependency3.type=UsesDependency
-dependency4.from=Piloto
+dependency4.from=PilotoExperimentado
 dependency4.to=Concentracion
 dependency4.type=UsesDependency
-dependency5.from=Piloto
-dependency5.to=Resultado
+dependency5.from=PilotoNovato
+dependency5.to=Concentracion
 dependency5.type=UsesDependency
 dependency6.from=PilotoAbstracto
 dependency6.to=Concentracion

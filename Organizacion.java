@@ -100,11 +100,32 @@ public final class Organizacion
 
     /**
      * Permite a una escudería inscribirse al campeonato.
+     * 
+     * @param escuderia Escuderia a inscribir en el campeonato.
      */
     public void inscribir(Escuderia escuderia){
         this.escuderias.add(escuderia);
     }
-
+    
+    /**
+     * Permite a una escudería enviar a un piloto al campeonato.
+     * 
+     * @param p Piloto enviado al campeonato.
+     */
+    public void enviarPiloto(Piloto p){
+        if(p.getCoche() != null && limitePilotos < pilotosCarrera.size()){
+          pilotosCarrera.add(p);
+        }
+    }
+    
+    /**
+     * Pide a las escuderias que envien pilotos a la carrera.
+     */
+    public void llenarPista(){
+        for(Escuderia e: this.escuderias){
+            e.obtenerParticipantes();
+        }
+    }
     /**
      * Establece el límite de abandonos por piloto.
      * 

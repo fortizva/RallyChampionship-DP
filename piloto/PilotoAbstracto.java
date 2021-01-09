@@ -18,7 +18,6 @@ public abstract class PilotoAbstracto implements Piloto
 {
     private String nombre;
     private Concentracion concentracion;
-    private double concentracionActual;
     private Coche coche;
     private boolean descalificado;
     private HashMap <String,Resultado> resultados;
@@ -26,7 +25,6 @@ public abstract class PilotoAbstracto implements Piloto
     public PilotoAbstracto(String nombre, Concentracion concentracion){
         this.nombre = nombre;
         this.concentracion = concentracion;
-        this.concentracionActual = concentracion.getValor();
         this.descalificado = false;
         resultados = new HashMap <String,Resultado>();
     }
@@ -53,20 +51,7 @@ public abstract class PilotoAbstracto implements Piloto
     public void setConcentracion(Concentracion concentracion){
         this.concentracion = concentracion;
     }
-
-    public double getConcentracionActual(){
-        return this.concentracionActual;
-    }
-
-    /**
-     * Actualiza la puntuacion de concentracion de un piloto.
-     * 
-     * @param puntos Puntos que sobreescribiran el valor de la concentracion de un piloto.
-     */
-    protected void setConcentracionActual(double puntos){
-        this.concentracionActual = puntos;
-    }
-
+    
     public Coche getCoche(){
         return this.coche;
     }
@@ -102,9 +87,8 @@ public abstract class PilotoAbstracto implements Piloto
 
     public void competir(Circuito circuito){
         double tiempo = this.getCoche().getTiempo(this.getDestreza(), circuito);
-        this.setConcentracionActual(this.getConcentracionActual() - tiempo);
         // Si la concentración actual es menor o igual a 0 significa que ha terminado la carrera antes de tiempo, por lo que el tiempo que ha gastado combustible es igual al tiempo de la carrera menos lo que le ha faltado de concentración.
-        this.getCoche().consumirCombustible((this.getConcentracionActual()<=0.0) ? (tiempo + this.getConcentracionActual()) : tiempo);
+        this.getCoche().consumirCombustible((this.getConcentracion().getValor()<=0.0) ? (tiempo + this.getConcentracion().getValor()) : tiempo);
 
     }
 

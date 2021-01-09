@@ -43,13 +43,6 @@ public interface Piloto
     public Concentracion getConcentracion();
 
     /**
-     * Devuelve la concentracion actual de un piloto.
-     * 
-     * @return Concentracion actual del piloto.
-     */
-    public double getConcentracionActual();
-
-    /**
      * Establece la concentracion al piloto.
      * 
      * @param concentracion Concentración del piloto.
