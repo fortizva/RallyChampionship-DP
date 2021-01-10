@@ -14,7 +14,7 @@ import circuito.Circuito;
  * @version 20/21
  */
 
-public abstract class PilotoAbstracto implements Piloto
+public abstract class PilotoAbstracto implements Piloto, Comparable<Piloto>
 {
     private String nombre;
     private Concentracion concentracion;
@@ -84,7 +84,7 @@ public abstract class PilotoAbstracto implements Piloto
     public void addResultado(Circuito circuito, double tiempo){
         this.resultados.put(circuito.getNombre(), new Resultado(circuito, tiempo));
     }
-    
+
     public void addPuntos(Circuito circuito, int puntos){
         this.resultados.get(circuito.getNombre()).setPuntos(puntos);
     }
@@ -97,7 +97,7 @@ public abstract class PilotoAbstracto implements Piloto
         if(this.getConcentracion().getValor() < tiempo){
             combustible = this.getConcentracion().getValor();
             resultado = tiempo - this.getConcentracion().getValor();
-            System.out.println("¡¡¡ " + this.getNombre() + " perdió la concentración a falta de " + (tiempo - this.getConcentracion().getValor()) + " minutos para terminar !!!");
+            System.out.println("¡¡¡ " + this.getNombre() + " perdió la concentración a falta de " + Math.round((tiempo - this.getConcentracion().getValor())*100d)/100d + " minutos para terminar !!!");
             System.out.println("¡¡¡ En el momento del despiste llevaba en carrera " + this.getConcentracion().getValor() + " minutos !!!");
         }
 
@@ -109,10 +109,10 @@ public abstract class PilotoAbstracto implements Piloto
         }
 
         if(resultado >= 0)
-            System.out.println("+++ " + this.getNombre() + " termina la carrera en minutosCarrera minutos +++");
+            System.out.println("+++ " + this.getNombre() + " termina la carrera en " + Math.round(resultado*100d)/100d + " minutos +++");
 
-        System.out.println("+++ El combustible del " + this.getCoche().getNombre() + " tras la carrera es combustibleRestante +++");
-        return resultado;
+        System.out.println("+++ El combustible del " + this.getCoche().getNombre() + " tras la carrera es " + this.getCoche().getCombustibleActual() + " +++");
+        return Math.round(resultado*100d)/100d;
     }
 
     public boolean isDescalificado(){
@@ -127,7 +127,26 @@ public abstract class PilotoAbstracto implements Piloto
         }
         return abandonos;
     }
-    
+
+    @Override
+    public int compareTo(Piloto piloto){
+        return this.getNombre().compareTo(piloto.getNombre());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (!(obj instanceof Piloto)) {
+            return false;
+        }
+
+        Piloto p = (Piloto) obj;
+        return (this.getNombre().equals(p.getNombre()));
+    }
+
     @Override
     public String toString(){
         String s = "<piloto:" + this.getNombre() + ">";

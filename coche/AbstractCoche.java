@@ -8,7 +8,7 @@ import circuito.Circuito;
  * @author: Francisco Javier Ortiz Valverde
  * @version: 20/21 
  */
-public abstract class AbstractCoche implements Coche
+public abstract class AbstractCoche implements Coche, Comparable<Coche>
 {
     private String nombre;
     private Velocidad velocidad;
@@ -56,7 +56,7 @@ public abstract class AbstractCoche implements Coche
     }
     
     public double getCombustibleActual(){
-        return this.combustibleActual;
+        return Math.round(this.combustibleActual*100d)/100d;
     }
     
     public double getVelocidadReal(double destreza, Circuito circuito){
@@ -85,6 +85,11 @@ public abstract class AbstractCoche implements Coche
         s += " <vel_teó: " + getVelocidad().toString() + ">";
         s += " <comb: " + getCombustible().toString() + " (actual:" + getCombustibleActual() + ")>";
         return s;
+    }
+    
+    @Override
+    public int compareTo(Coche coche){
+        return this.getNombre().compareTo(coche.getNombre());
     }
     
     @Override

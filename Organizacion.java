@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Arrays;
+import java.util.TreeSet;
 
+import piloto.comparador.ComparadorAnidadoPiloto;
 import piloto.comparador.ComparadorTiemposPiloto;
 import piloto.comparador.ComparadorPuntosPiloto;
 import piloto.Resultado;
 import circuito.Circuito;
+import circuito.comparador.ComparadorAnidadoCircuito;
 import piloto.Piloto;
-import java.util.TreeSet;
 
 /**
  * Singleton Organizacion que gestionara la competición.
@@ -58,18 +61,12 @@ public final class Organizacion
      * @param limiteAbandonos Límite de abandonos por piloto.
      * @param limitePilotos Límite de pilotos que puede enviar una escudería.
      */
-    private Organizacion(int limiteAbandonos, int limitePilotos, Comparator<Circuito> comparador){
+    private Organizacion(int limiteAbandonos, int limitePilotos, ComparadorAnidadoCircuito comparador){
         this.limiteAbandonos = limiteAbandonos;
         this.limitePilotos = limitePilotos;
         escuderias = new ArrayList <Escuderia>();
         circuitos = new TreeSet <Circuito>(comparador);
-        pilotosCarrera = new TreeSet <Piloto>(new Comparator <Piloto>()
-            {
-                @Override
-                public int compare(Piloto p1, Piloto p2){
-                    return ((Integer)p1.getPuntos()).compareTo(p2.getPuntos()) * (-1);
-                }
-            });
+        pilotosCarrera = new TreeSet <Piloto>(new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed()));
 
         pilotosDescalificados = new ArrayList <Piloto>();
     }
@@ -87,6 +84,26 @@ public final class Organizacion
         else{
             instancia.setLimiteAbandonos(limiteAbandonos);
             instancia.setLimitePilotos(limitePilotos);
+        }
+    }
+    
+        /**
+     * Inicializa los valores de la instancia Organizacion o crea una nueva con los valores dados si no existe.
+     * 
+     * @param limiteAbandonos Límite de abandonos por piloto.
+     * @param limitePilotos Límite de pilotos que puede enviar una escudería.
+     * @param comparador Comparador que se empleará para ordenar las carreras
+     */
+    public static void inicializar(int limiteAbandonos, int limitePilotos, ComparadorAnidadoCircuito comparador)
+    {
+        if(instancia == null)
+            instancia = new Organizacion(limiteAbandonos, limitePilotos, comparador);
+        else{
+            instancia.setLimiteAbandonos(limiteAbandonos);
+            instancia.setLimitePilotos(limitePilotos);
+            TreeSet aux = new TreeSet(comparador);
+            aux.addAll(instancia.circuitos);
+            instancia.circuitos = aux;
         }
     }
 
@@ -108,6 +125,7 @@ public final class Organizacion
      */
     public void inscribir(Escuderia escuderia){
         this.escuderias.add(escuderia);
+        Collections.sort(this.escuderias);
     }
 
     /**
@@ -116,9 +134,28 @@ public final class Organizacion
      * @param p Piloto enviado al campeonato.
      */
     public void enviarPiloto(Piloto p){
-        if(p.getCoche() != null && limitePilotos < pilotosCarrera.size()){
-            pilotosCarrera.add(p);
+        if(p.getCoche() != null){
+            System.out.println("INTENTANDO ENVIAR A "+ p.getNombre());
+            System.out.println("INSERTADO?" + pilotosCarrera.add(p));
         }
+    }
+    
+    /**
+     * Añade un o más circuitos al campeonato.
+     * 
+     * @param circuitos Circuitos a añadir.
+     */
+    public void addCircuitos(Circuito... circuitos){
+        this.circuitos.addAll(Arrays.asList(circuitos));
+    }
+    
+    /**
+     * Elimina un circuito del campeonato.
+     * 
+     * @param circuito Circuito a eliminar.
+     */
+    public void removeCircuito(Circuito circuito){
+        instancia.circuitos.remove(circuito);
     }
 
     /**
@@ -177,6 +214,7 @@ public final class Organizacion
                             System.out.println("@@@");
                             p.setDescalificado(true);
                         }
+                        numPiloto++;
                     }
                 }
             }
@@ -197,8 +235,9 @@ public final class Organizacion
      * Pide a las escuderias que envien pilotos a la carrera.
      */
     public void llenarPista(){
+        //this.pilotosCarrera = new TreeSet(this.pilotosCarrera.comparator());
         for(Escuderia e: this.escuderias){
-            e.obtenerParticipantes();
+            e.obtenerParticipantes(this.limitePilotos);
         }
     }
 
@@ -380,7 +419,7 @@ public final class Organizacion
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
         System.out.println("||||||||||||||||||| CIRCUITOS DEL CAMPEONATO |||||||||||||||||||");
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        for(Circuito c: circuitos){
+        for(Circuito c: this.circuitos){
             System.out.println(c.toString());
         }
     }
@@ -392,7 +431,7 @@ public final class Organizacion
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("%%%%%%%% ESCUDERÍAS DEL CAMPEONATO %%%%%%%%");
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        for(Escuderia e: escuderias){
+        for(Escuderia e: this.escuderias){
             System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println(e.toString());
             System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");

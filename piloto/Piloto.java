@@ -107,7 +107,7 @@ public interface Piloto
      * @param puntos Puntos conseguidos en la carrera.
      */
     public void addPuntos(Circuito circuito, int puntos);
-
+    
     /**
      * Resta el combustible y la concentracion que consume cada carrera al coche y a su piloto respectivamente y devuelve el tiempo de carrera.
      * Si alguno del los valores es insuficiente para completar la carrera, se almacenará lo que faltó para terminar la carrera.

@@ -1,5 +1,7 @@
 import piloto.Piloto;
+import piloto.comparador.ComparadorAnidadoPiloto;
 import coche.Coche;
+import coche.comparador.ComparadorAnidadoCoche;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +16,7 @@ import java.util.Iterator;
  * @author Francisco Javier Ortiz Valverde.
  * @version 20/21.
  */
-public class Escuderia
+public class Escuderia implements Comparable<Escuderia>
 {
     private String nombre;
     private TreeSet<Piloto> pilotos;
@@ -33,12 +35,26 @@ public class Escuderia
     }
 
     /**
+     * Constructor de Escuderias.
+     * 
+     * @param nombre Nombre de la escudería.
+     * @param compPilotos Comparador de pilotos.
+     * @param compCoches Comparador de coches.
+     */
+    public Escuderia(String nombre, ComparadorAnidadoPiloto compPilotos, ComparadorAnidadoCoche compCoches)
+    {
+        this.nombre = nombre;
+        pilotos = new TreeSet<Piloto>(compPilotos);
+        coches = new TreeSet<Coche>(compCoches);
+    }
+
+    /**
      * Devuelve el nombre de la escudería.
      * 
      * @return el nombre de la escudería.
      */
     public String getNombre(){
-        return this.getNombre();
+        return this.nombre;
     }
 
     /**
@@ -55,7 +71,7 @@ public class Escuderia
      * 
      * @param comparador Comparador empleado para ordenar la lista.
      */
-    public void ordenarPilotos(Comparator<Piloto> comparador){
+    public void ordenarPilotos(ComparadorAnidadoPiloto comparador){
         TreeSet <Piloto> aux = new TreeSet<Piloto>(comparador);
         aux.addAll(this.pilotos);
         this.pilotos = aux;
@@ -66,7 +82,7 @@ public class Escuderia
      * 
      * @param comparador Comparador empleado para ordenar la lista.
      */
-    public void ordenarCoches(Comparator<Coche> comparador){
+    public void ordenarCoches(ComparadorAnidadoCoche comparador){
         TreeSet <Coche> aux = new TreeSet<Coche>(comparador);
         aux.addAll(this.coches);
         this.coches = aux;
@@ -135,39 +151,46 @@ public class Escuderia
     }
 
     /**
-     * Asigna al primer piloto de la lista sin descalificar el primer coche de la lista con combustible.
+     * Envía a competir tantos pilotos como tenga disponible dentro del límite establecido.
      * 
-     * @return Devuelve true si envia un piloto.
+     * @param limite Número de pilotos máximos a enviar.
      */
-    public boolean obtenerParticipantes(){
-        boolean enc = false;
-        for(Piloto p : pilotos){
-            if(!p.isDescalificado()){
-                Iterator it = coches.iterator();
-                while(it.hasNext() && !enc){
-                    Coche c = (Coche)it.next();
-                    if(c.getCombustibleActual() > 0){
-                        p.setCoche(c);
-                        enc = true;
-                        Organizacion.getInstance().enviarPiloto(p);
-                    }
+    public void obtenerParticipantes(int limite){
+        Iterator itPiloto = this.pilotos.iterator();;
+        Iterator itCoche = coches.iterator();
+        Piloto piloto;
+        Coche coche;
+        boolean asignado = false;
+        for(int i = 0; i<limite; i++){
+            piloto = (Piloto) itPiloto.next();
+            asignado = false;
+            while(itCoche.hasNext() && !asignado){
+                coche = (Coche) itCoche.next();
+                if(coche.getCombustibleActual() > 0){
+                    piloto.setCoche(coche);
+                    asignado = true;
+                    Organizacion.getInstance().enviarPiloto(piloto);
                 }
-                if(!enc){
-                    System.out.println("¡¡¡ " + p.getNombre() + " NO ES ENVIADO A LA CARRERA porque su escudería: " + this.getNombre() + " no tiene más coches con combustible disponibles !!! ");
-                }
+            } 
+            if(!asignado){
+                System.out.println("¡¡¡ " + piloto.getNombre() + " NO ES ENVIADO A LA CARRERA porque su escudería: " + this.getNombre() + " no tiene más coches con combustible disponibles !!! ");
             }
         }
-        return enc;
+    }
+
+    @Override
+    public int compareTo(Escuderia e){
+        return this.nombre.compareTo(e.getNombre())*(-1);
     }
 
     @Override
     public String toString(){
-        String s = "%%% "+ this.getNombre() +" %%%";
+        String s = "%%% "+ this.getNombre() +" %%%\n";
         for(Piloto p : pilotos){
-            s += p.toString();
+            s += p.toString() + "\n";
         }
         for(Coche c : coches){
-            s += c.toString();
+            s += c.toString() + "\n";
         }
         return s;
     }

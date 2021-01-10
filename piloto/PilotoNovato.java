@@ -29,7 +29,7 @@ public class PilotoNovato extends PilotoAbstracto
     
     @Override
     public double getDestreza(){
-        return ((this.getConcentracion().getValor()*0.97)/120 - 0.03);
+        return Math.round(((this.getConcentracion().getValor()*0.97)/120 - 0.03)*100d)/100d;
     }
 
 }

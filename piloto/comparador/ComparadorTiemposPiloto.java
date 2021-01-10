@@ -25,6 +25,6 @@ public class ComparadorTiemposPiloto implements Comparator<Piloto>
     }
 
     public int compare(Piloto p1, Piloto p2){
-        return ((Double) p1.getTiempo(circuito)).compareTo((Double) p2.getTiempo(circuito));
+        return ((Double) p1.getResultados().get(circuito.getNombre()).getMinutos()).compareTo((Double) p2.getResultados().get(circuito.getNombre()).getMinutos());
     }
 }
