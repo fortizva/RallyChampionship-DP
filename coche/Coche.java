@@ -61,7 +61,7 @@ public interface Coche
     public double getCombustibleActual();
     
     /**
-     * Devuelve la velocidad del coche teniendo en cuenta la complejidad del ciruito y la desteza de su piloto.
+     * Devuelve y muestra por pantalla la velocidad del coche teniendo en cuenta la complejidad del ciruito y la desteza de su piloto.
      * 
      * @param destreza Destreza del piloto que conduce el coche.
      * @param circuito Circuito en el que está corriendo el coche.

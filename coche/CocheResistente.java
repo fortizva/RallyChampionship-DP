@@ -29,6 +29,7 @@ public class CocheResistente extends AbstractCoche
         if(Math.abs(this.reservaActual - 0.0d)>= 0.000001 && minutos > getCombustibleActual()){
             setCombustibleActual(getCombustibleActual() + this.reservaActual);
             this.reservaActual = 0.0d;
+            System.out.println("+++ El " + this.getNombre() + " tiene que recurrir al depósito de reserva para poder correr +++");
         }
         
         setCombustibleActual(getCombustibleActual() - minutos);

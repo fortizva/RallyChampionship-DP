@@ -96,18 +96,28 @@ public interface Piloto
      * Añade un resultado de carrera al historial del piloto.
      * 
      * @param circuito Circuito en el que se ha disputado la carrera.
-     * @param puntos Puntuación obtenida en la carrera.
+     * @param minutos Tiempo de carrera.
      */
-    public void addResultado(Circuito circuito, int puntos);
+    public void addResultado(Circuito circuito, double minutos);
+    
+    /**
+     * Añade puntuación a un resultado de carrera del historial del piloto.
+     * 
+     * @param circuito Circuito en el que se han conseguido los puntos.
+     * @param puntos Puntos conseguidos en la carrera.
+     */
+    public void addPuntos(Circuito circuito, int puntos);
 
     /**
-     * Resta el combustible y la concentracion que consume cada carrera al coche y a su piloto respectivamente.
+     * Resta el combustible y la concentracion que consume cada carrera al coche y a su piloto respectivamente y devuelve el tiempo de carrera.
      * Si alguno del los valores es insuficiente para completar la carrera, se almacenará lo que faltó para terminar la carrera.
      * En caso de perder la concentración antes de finalizar, sólo se restará el combustible usado hasta entonces.
      * 
      * @param circuito Circuito que recorre el piloto.
+     * 
+     * @return Tiempo en terminar la carrera, si no finaliza la carrera devolverá el tiempo faltante como un valor negativo.
      */
-    public void competir(Circuito circuito);
+    public double competir(Circuito circuito);
 
     /**
      * Devuelve si el piloto está descalificado.
@@ -115,4 +125,11 @@ public interface Piloto
      * @return Estado del piloto.
      */
     public boolean isDescalificado();
+    
+    /**
+     * Devuelve el número de abandonos a lo largo del campeonato.
+     * 
+     * @return Número de abandonos.
+     */
+    public int getAbandonos();
 }

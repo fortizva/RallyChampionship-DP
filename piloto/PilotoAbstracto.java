@@ -51,7 +51,7 @@ public abstract class PilotoAbstracto implements Piloto
     public void setConcentracion(Concentracion concentracion){
         this.concentracion = concentracion;
     }
-    
+
     public Coche getCoche(){
         return this.coche;
     }
@@ -81,21 +81,53 @@ public abstract class PilotoAbstracto implements Piloto
         return new HashMap<String, Resultado>(this.resultados);
     }
 
-    public void addResultado(Circuito circuito, int puntos){
-        this.resultados.put(circuito.getNombre(), new Resultado(circuito, this.coche.getTiempo(this.getDestreza(), circuito), puntos));
+    public void addResultado(Circuito circuito, double tiempo){
+        this.resultados.put(circuito.getNombre(), new Resultado(circuito, tiempo));
+    }
+    
+    public void addPuntos(Circuito circuito, int puntos){
+        this.resultados.get(circuito.getNombre()).setPuntos(puntos);
     }
 
-    public void competir(Circuito circuito){
+    public double competir(Circuito circuito){
         double tiempo = this.getCoche().getTiempo(this.getDestreza(), circuito);
-        // Si la concentración actual es menor o igual a 0 significa que ha terminado la carrera antes de tiempo, por lo que el tiempo que ha gastado combustible es igual al tiempo de la carrera menos lo que le ha faltado de concentración.
-        this.getCoche().consumirCombustible((this.getConcentracion().getValor()<=0.0) ? (tiempo + this.getConcentracion().getValor()) : tiempo);
+        double combustible = tiempo;
+        double resultado = tiempo;
+        // Si la concentración es menor que el tiempo de carrera sólo consumir el combustible usado hasta el abandono.
+        if(this.getConcentracion().getValor() < tiempo){
+            combustible = this.getConcentracion().getValor();
+            resultado = tiempo - this.getConcentracion().getValor();
+            System.out.println("¡¡¡ " + this.getNombre() + " perdió la concentración a falta de " + (tiempo - this.getConcentracion().getValor()) + " minutos para terminar !!!");
+            System.out.println("¡¡¡ En el momento del despiste llevaba en carrera " + this.getConcentracion().getValor() + " minutos !!!");
+        }
 
+        this.getCoche().consumirCombustible(combustible);
+        if(this.getCoche().getCombustibleActual() <= 0){
+            resultado = this.getCoche().getCombustibleActual();
+            System.out.println("¡¡¡ El " + this.getCoche().getNombre() + " se quedó sin combustible a falta de " + Math.abs(this.getCoche().getCombustibleActual()) + " minutos para terminar !!!");
+            System.out.println("¡¡¡ En el momento de quedarse sin combustible llevaba en carrera " + (tiempo + this.getCoche().getCombustibleActual()) + " minutos !!!");
+        }
+
+        if(resultado >= 0)
+            System.out.println("+++ " + this.getNombre() + " termina la carrera en minutosCarrera minutos +++");
+
+        System.out.println("+++ El combustible del " + this.getCoche().getNombre() + " tras la carrera es combustibleRestante +++");
+        return resultado;
     }
 
     public boolean isDescalificado(){
         return this.descalificado;
     }
 
+    public int getAbandonos(){
+        int abandonos = 0;
+        for(Resultado r : this.resultados.values()){
+            if(r.getMinutos()<0)
+                abandonos++;
+        }
+        return abandonos;
+    }
+    
     @Override
     public String toString(){
         String s = "<piloto:" + this.getNombre() + ">";

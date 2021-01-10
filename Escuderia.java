@@ -86,6 +86,48 @@ public class Escuderia
     }
 
     /**
+     * Devuelve una copia de la lista de pilotos de la escudería.
+     * 
+     * @return Lista de pilotos de la escudería.
+     */
+    public TreeSet<Piloto> getPilotos(){
+        TreeSet<Piloto> copia = new TreeSet<Piloto>(this.pilotos.comparator());
+        copia.addAll(this.pilotos);
+        return copia;
+    }
+
+    /**
+     * Añade un coche a la escudería.
+     * 
+     * @param coche Coche a añadir.
+     */
+    public void addCoche(Coche coche){
+        this.coches.add(coche);
+    }
+
+    /**
+     * Añade un piloto a la escudería.
+     * 
+     * @param piloto Piloto a añadir.
+     */
+    public void addPiloto(Piloto piloto){
+        this.pilotos.add(piloto);
+    }
+
+    /**
+     * Devuelve si todos los pilotos de la escudería están descalificados.
+     * 
+     * @return Devuelve true si todos los pilotos están descalificados.
+     */
+    public boolean isDescalificada(){
+        for(Piloto p : this.pilotos){
+            if(p.isDescalificado())
+                return false;
+        }
+        return true;
+    }
+
+    /**
      * Inscribe a la escudería en el campeonato.
      */
     public void inscribirse(){

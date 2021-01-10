@@ -33,15 +33,16 @@ public class CocheRapido extends AbstractCoche
     public double getVelocidadReal(double destreza, Circuito circuito){
         double velocidadReal = Math.round(((getVelocidad().getValor() * destreza) / circuito.getComplejidadActual())*100d) / 100d;
         double porcentaje = Math.round((velocidadReal * (AUMENTO_MAXIMO/100d))*100d)/100d;
+        
+        System.out.println("+++ Con estas condiciones es capaz de correr a " + velocidadReal + " km/hora +++");
         if(Math.abs(nitroActual-0.00d)<=0.000001d){
-            if(porcentaje < this.nitroActual){
-                velocidadReal += porcentaje;
-                this.nitroActual -= porcentaje;
-            } else {
-                velocidadReal += this.nitroActual;
-                this.nitroActual = 0;
+            if (porcentaje >= this.nitroActual) {
+                porcentaje = this.nitroActual;
             }
+            velocidadReal += porcentaje;
+            this.nitroActual -= porcentaje;
         }
+        System.out.println("+++ El nombreCoche usa " + porcentaje + " de nitro para alcanzar " + velocidadReal + " km/hora y el nitro restante es " + this.nitroActual + " +++");
         return velocidadReal;
     } 
     

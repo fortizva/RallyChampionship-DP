@@ -19,11 +19,22 @@ public class Resultado
      * 
      * @param nombre Nombre del circuito en el que se ha competido.
      * @param minutos Minutos en los que se ha completado la carrera.
+     */
+        public Resultado(Circuito circuito, double minutos){
+        this.circuito = circuito;
+        this.minutos = minutos;
+    }
+    
+    /**
+     * Constructor de Resultado
+     * 
+     * @param nombre Nombre del circuito en el que se ha competido.
+     * @param minutos Minutos en los que se ha completado la carrera.
      * @param puntos Puntuación obtenida en la carrera
      */
     public Resultado(Circuito circuito, double minutos, int puntos){
-        this.circuito = circuito;
-        this.minutos = minutos;
+        this(circuito, minutos);
+        this.puntos = puntos;
     }
 
     /**

@@ -60,7 +60,9 @@ public abstract class AbstractCoche implements Coche
     }
     
     public double getVelocidadReal(double destreza, Circuito circuito){
-        return Math.round(((getVelocidad().getValor() * destreza) / circuito.getComplejidadActual())*100d) / 100d;
+        double velocidadReal = Math.round(((getVelocidad().getValor() * destreza) / circuito.getComplejidadActual())*100d) / 100d;
+        System.out.println("+++ Con estas condiciones es capaz de correr a " + velocidadReal + " km/hora +++");
+        return velocidadReal;
     }
     
     public double getTiempo(double destreza, Circuito circuito){
