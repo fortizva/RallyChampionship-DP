@@ -35,19 +35,19 @@ public class CocheRapido extends AbstractCoche
         double porcentaje = Math.round((velocidadReal * (AUMENTO_MAXIMO/100d))*100d)/100d;
         
         System.out.println("+++ Con estas condiciones es capaz de correr a " + velocidadReal + " km/hora +++");
-        if(Math.abs(nitroActual-0.00d)<=0.000001d){
+        if(nitroActual >= 0){
             if (porcentaje >= this.nitroActual) {
                 porcentaje = this.nitroActual;
             }
             velocidadReal += porcentaje;
             this.nitroActual -= porcentaje;
         }
-        System.out.println("+++ El nombreCoche usa " + porcentaje + " de nitro para alcanzar " + velocidadReal + " km/hora y el nitro restante es " + this.nitroActual + " +++");
-        return velocidadReal;
+        System.out.println("+++ El " + this.getNombre() +" usa " + porcentaje + " de nitro para alcanzar " + Math.round(velocidadReal*100d)/100d + " km/hora y el nitro restante es " + Math.round(this.nitroActual*100d)/100d + " +++");
+        return Math.round(velocidadReal*100d)/100d;
     } 
     
     @Override
     public String toString(){
-        return toBaseString() + "<nitroPendiente: "+ this.nitroActual + ">";
+        return toBaseString() + "<nitroPendiente: "+ Math.round(this.nitroActual*100d)/100d + ">";
     }
 }

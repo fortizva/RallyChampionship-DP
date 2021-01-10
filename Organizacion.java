@@ -51,7 +51,7 @@ public final class Organizacion
         this.limitePilotos = limitePilotos;
         escuderias = new ArrayList <Escuderia>();
         circuitos = new TreeSet <Circuito>();
-        pilotosCarrera = new TreeSet <Piloto>();
+        pilotosCarrera = new TreeSet <Piloto>(new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed()));
         pilotosDescalificados = new ArrayList <Piloto>(); 
     }
 
@@ -135,8 +135,7 @@ public final class Organizacion
      */
     public void enviarPiloto(Piloto p){
         if(p.getCoche() != null){
-            System.out.println("INTENTANDO ENVIAR A "+ p.getNombre());
-            System.out.println("INSERTADO?" + pilotosCarrera.add(p));
+            pilotosCarrera.add(p);
         }
     }
     
@@ -208,7 +207,7 @@ public final class Organizacion
                         p.addResultado(c, tiempo);
                         System.out.println("@@@");
                         // Comprobar si el piloto está descalificado y marcarlo si es así para su posterior descalificación.
-                        if(tiempo < 0 && p.getAbandonos() > this.limiteAbandonos){
+                        if(tiempo < 0 && p.getAbandonos() >= this.limiteAbandonos){
                             System.out.println("@@@");
                             System.out.println("¡¡¡ " + p.getNombre() + " es DESCALIFICADO del campeonato por alcanzar el límite de abandonos(" + this.limiteAbandonos + ") !!!");
                             System.out.println("@@@");
@@ -235,7 +234,7 @@ public final class Organizacion
      * Pide a las escuderias que envien pilotos a la carrera.
      */
     public void llenarPista(){
-        //this.pilotosCarrera = new TreeSet(this.pilotosCarrera.comparator());
+        this.pilotosCarrera = new TreeSet(this.pilotosCarrera.comparator());
         for(Escuderia e: this.escuderias){
             e.obtenerParticipantes(this.limitePilotos);
         }
@@ -325,7 +324,7 @@ public final class Organizacion
         }
 
         for(Piloto p : abandono){
-            String s = "¡¡¡ Ha abandonado " + p.getNombre() + " - Tiempo: - " + p.getResultados().get(c.getNombre()).getMinutos() + " - Puntos: 0";
+            String s = "¡¡¡ Ha abandonado " + p.getNombre() + " - Tiempo: " + p.getResultados().get(c.getNombre()).getMinutos() + " - Puntos: 0";
             p.addPuntos(c, 0);
             if(p.isDescalificado()){
                 s += " - Además ha sido descalificado para el resto del Campeonato !!!";

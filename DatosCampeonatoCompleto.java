@@ -42,7 +42,7 @@ public class DatosCampeonatoCompleto
 
     private void initData() {
         // Añadimos comparador invertido de nombre descendente para igualar la salida de ejemplo.
-        Organizacion.inicializar(3, 2, (new ComparadorAnidadoCircuito(true, new ComparadorDistanciaActualCircuito(), new ComparadorNombreCircuito())));
+        Organizacion.inicializar(2, 2, (new ComparadorAnidadoCircuito(true, new ComparadorDistanciaActualCircuito(), new ComparadorNombreCircuito())));
         Organizacion organizacion = Organizacion.getInstance();
 
         Circuito circPortugal = new CircuitoNocturno(new CircuitoGravilla(new Circuito("Portugal", Complejidad.MEDIA, Distancia.INTERMEDIA)));
@@ -79,7 +79,7 @@ public class DatosCampeonatoCompleto
         escSeat.addPiloto(new PilotoNovato("Blomquist",Concentracion.DESPISTADO));
 
         escPeugeot.addCoche(new CocheResistente("Peugeot 5008", Velocidad.LENTA, Combustible.GENEROSO));
-        escPeugeot.addCoche(new CocheResistente("Peugeot 3008",Velocidad.GUEPARDO, Combustible.NORMAL));
+        escPeugeot.addCoche(new CocheRapido("Peugeot 3008",Velocidad.GUEPARDO, Combustible.NORMAL));
         escPeugeot.addCoche(new CocheNormal("Peugeot 2008",Velocidad.NORMAL, Combustible.ESCASO));
 
         escPeugeot.addPiloto(new PilotoExperimentado("Kankunnen", Concentracion.CONCENTRADO));

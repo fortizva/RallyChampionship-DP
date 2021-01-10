@@ -89,6 +89,26 @@ public class Escuderia implements Comparable<Escuderia>
     }
 
     /**
+     * Actualiza el orden de la lista de pilotos.
+     */
+    public void actualizarPilotos(){
+        TreeSet <Piloto> aux = new TreeSet<Piloto>(this.pilotos.comparator());
+        aux.addAll(this.pilotos);
+        this.pilotos = aux;
+        System.out.println("DEBUG: MOSTRANDO ESCUDERÍA "+ this.getNombre() +"PILOTOS");
+        System.out.println(this.pilotos);
+    }
+    
+      /**
+     * Actualiza el orden de la lista de coches.
+     */
+        public void actualizarCoches(){
+        TreeSet <Coche> aux = new TreeSet<Coche>(this.coches.comparator());
+        aux.addAll(this.coches);
+        this.coches = aux;
+    }
+    
+    /**
      * Devuelve la puntuación total de la escudería.
      * 
      * @param Suma de puntos de los pilotos de la escudería.
@@ -149,31 +169,40 @@ public class Escuderia implements Comparable<Escuderia>
     public void inscribirse(){
         Organizacion.getInstance().inscribir(this);
     }
-
+    
     /**
      * Envía a competir tantos pilotos como tenga disponible dentro del límite establecido.
      * 
      * @param limite Número de pilotos máximos a enviar.
      */
     public void obtenerParticipantes(int limite){
-        Iterator itPiloto = this.pilotos.iterator();;
+        // Actualizamos las listas de pilotos y coches
+        actualizarPilotos();
+        actualizarCoches();
+        
+        Iterator itPiloto = this.pilotos.iterator();
         Iterator itCoche = coches.iterator();
-        Piloto piloto;
+        Piloto piloto = (Piloto) itPiloto.next();;
         Coche coche;
         boolean asignado = false;
         for(int i = 0; i<limite; i++){
-            piloto = (Piloto) itPiloto.next();
-            asignado = false;
-            while(itCoche.hasNext() && !asignado){
-                coche = (Coche) itCoche.next();
-                if(coche.getCombustibleActual() > 0){
-                    piloto.setCoche(coche);
-                    asignado = true;
-                    Organizacion.getInstance().enviarPiloto(piloto);
+            while((piloto.isDescalificado() || asignado) && itPiloto.hasNext()){
+                piloto = (Piloto) itPiloto.next();
+                asignado = false;
+            }
+            if(!piloto.isDescalificado()){
+                asignado = false;
+                while(itCoche.hasNext() && !asignado){
+                    coche = (Coche) itCoche.next();
+                    if(coche.getCombustibleActual() > 0){
+                        piloto.setCoche(coche);
+                        asignado = true;
+                        Organizacion.getInstance().enviarPiloto(piloto);
+                    }
+                } 
+                if(!asignado){
+                    System.out.println("¡¡¡ " + piloto.getNombre() + " NO ES ENVIADO A LA CARRERA porque su escudería: " + this.getNombre() + " no tiene más coches con combustible disponibles !!! ");
                 }
-            } 
-            if(!asignado){
-                System.out.println("¡¡¡ " + piloto.getNombre() + " NO ES ENVIADO A LA CARRERA porque su escudería: " + this.getNombre() + " no tiene más coches con combustible disponibles !!! ");
             }
         }
     }

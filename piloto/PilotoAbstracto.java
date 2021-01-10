@@ -74,6 +74,7 @@ public abstract class PilotoAbstracto implements Piloto, Comparable<Piloto>
             puntos += r.getPuntos();
         }
 
+        System.out.println(this.getNombre() + " TIENE " + puntos);
         return puntos;
     }
 
@@ -96,7 +97,7 @@ public abstract class PilotoAbstracto implements Piloto, Comparable<Piloto>
         // Si la concentración es menor que el tiempo de carrera sólo consumir el combustible usado hasta el abandono.
         if(this.getConcentracion().getValor() < tiempo){
             combustible = this.getConcentracion().getValor();
-            resultado = tiempo - this.getConcentracion().getValor();
+            resultado = this.getConcentracion().getValor() - tiempo;
             System.out.println("¡¡¡ " + this.getNombre() + " perdió la concentración a falta de " + Math.round((tiempo - this.getConcentracion().getValor())*100d)/100d + " minutos para terminar !!!");
             System.out.println("¡¡¡ En el momento del despiste llevaba en carrera " + this.getConcentracion().getValor() + " minutos !!!");
         }
@@ -130,21 +131,17 @@ public abstract class PilotoAbstracto implements Piloto, Comparable<Piloto>
 
     @Override
     public int compareTo(Piloto piloto){
+        if(this.equals(piloto))
+            return 0;
         return this.getNombre().compareTo(piloto.getNombre());
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+        if (obj instanceof Piloto && ((Piloto) obj).getNombre().equals(this.getNombre())) {
+            return true;
         }
-
-        if (!(obj instanceof Piloto)) {
-            return false;
-        }
-
-        Piloto p = (Piloto) obj;
-        return (this.getNombre().equals(p.getNombre()));
+        return false;
     }
 
     @Override
