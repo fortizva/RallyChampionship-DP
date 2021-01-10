@@ -42,7 +42,7 @@ public class DatosCampeonatoCompleto
 
     private void initData() {
         // Añadimos comparador invertido de nombre descendente para igualar la salida de ejemplo.
-        Organizacion.inicializar(2, 2, (new ComparadorAnidadoCircuito(true, new ComparadorDistanciaActualCircuito(), new ComparadorNombreCircuito())));
+        Organizacion.inicializar(3, 2, (new ComparadorAnidadoCircuito(true, new ComparadorDistanciaActualCircuito(), new ComparadorNombreCircuito())));
         Organizacion organizacion = Organizacion.getInstance();
 
         Circuito circPortugal = new CircuitoNocturno(new CircuitoGravilla(new Circuito("Portugal", Complejidad.MEDIA, Distancia.INTERMEDIA)));

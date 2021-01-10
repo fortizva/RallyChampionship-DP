@@ -1,7 +1,7 @@
 import piloto.Piloto;
-import piloto.comparador.ComparadorAnidadoPiloto;
+import piloto.comparador.*;
 import coche.Coche;
-import coche.comparador.ComparadorAnidadoCoche;
+import coche.comparador.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +19,11 @@ import java.util.Iterator;
 public class Escuderia implements Comparable<Escuderia>
 {
     private String nombre;
-    private TreeSet<Piloto> pilotos;
-    private TreeSet<Coche> coches;
+    private ArrayList<Piloto> pilotos;
+    private ArrayList<Coche> coches;
 
+    private Comparator<Piloto> compPilotos;
+    private Comparator<Coche> compCoches;
     /**
      * Constructor de Escuderias.
      * 
@@ -30,8 +32,11 @@ public class Escuderia implements Comparable<Escuderia>
     public Escuderia(String nombre)
     {
         this.nombre = nombre;
-        pilotos = new TreeSet<Piloto>();
-        coches = new TreeSet<Coche>();
+        pilotos = new ArrayList<Piloto>();
+        coches = new ArrayList<Coche>();
+        
+        compPilotos = new ComparadorAnidadoPiloto(new ComparadorNombrePiloto());
+        compCoches = new ComparadorAnidadoCoche(new ComparadorNombreCoche());
     }
 
     /**
@@ -44,8 +49,10 @@ public class Escuderia implements Comparable<Escuderia>
     public Escuderia(String nombre, ComparadorAnidadoPiloto compPilotos, ComparadorAnidadoCoche compCoches)
     {
         this.nombre = nombre;
-        pilotos = new TreeSet<Piloto>(compPilotos);
-        coches = new TreeSet<Coche>(compCoches);
+        pilotos = new ArrayList<Piloto>();
+        this.compPilotos = compPilotos;
+        coches = new ArrayList<Coche>();
+        this.compCoches = compCoches;
     }
 
     /**
@@ -72,9 +79,8 @@ public class Escuderia implements Comparable<Escuderia>
      * @param comparador Comparador empleado para ordenar la lista.
      */
     public void ordenarPilotos(ComparadorAnidadoPiloto comparador){
-        TreeSet <Piloto> aux = new TreeSet<Piloto>(comparador);
-        aux.addAll(this.pilotos);
-        this.pilotos = aux;
+        this.compPilotos = comparador;
+        Collections.sort(this.pilotos, comparador);
     }
 
     /**
@@ -83,18 +89,15 @@ public class Escuderia implements Comparable<Escuderia>
      * @param comparador Comparador empleado para ordenar la lista.
      */
     public void ordenarCoches(ComparadorAnidadoCoche comparador){
-        TreeSet <Coche> aux = new TreeSet<Coche>(comparador);
-        aux.addAll(this.coches);
-        this.coches = aux;
+        this.compCoches = comparador;
+        Collections.sort(this.coches, comparador);
     }
 
     /**
      * Actualiza el orden de la lista de pilotos.
      */
     public void actualizarPilotos(){
-        TreeSet <Piloto> aux = new TreeSet<Piloto>(this.pilotos.comparator());
-        aux.addAll(this.pilotos);
-        this.pilotos = aux;
+        Collections.sort(this.pilotos,this.compPilotos);
         System.out.println("DEBUG: MOSTRANDO ESCUDERÍA "+ this.getNombre() +"PILOTOS");
         System.out.println(this.pilotos);
     }
@@ -103,9 +106,7 @@ public class Escuderia implements Comparable<Escuderia>
      * Actualiza el orden de la lista de coches.
      */
         public void actualizarCoches(){
-        TreeSet <Coche> aux = new TreeSet<Coche>(this.coches.comparator());
-        aux.addAll(this.coches);
-        this.coches = aux;
+        Collections.sort(this.coches, this.compCoches);
     }
     
     /**
@@ -126,10 +127,17 @@ public class Escuderia implements Comparable<Escuderia>
      * 
      * @return Lista de pilotos de la escudería.
      */
-    public TreeSet<Piloto> getPilotos(){
-        TreeSet<Piloto> copia = new TreeSet<Piloto>(this.pilotos.comparator());
-        copia.addAll(this.pilotos);
-        return copia;
+    public ArrayList<Piloto> getPilotos(){
+        return new ArrayList<Piloto>(this.pilotos);
+    }
+    
+        /**
+     * Devuelve una copia de la lista de coches de la escudería.
+     * 
+     * @return Lista de coches de la escudería.
+     */
+    public ArrayList<Coche> getCoches(){
+        return new ArrayList<Coche>(this.coches);
     }
 
     /**
@@ -182,7 +190,7 @@ public class Escuderia implements Comparable<Escuderia>
         
         Iterator itPiloto = this.pilotos.iterator();
         Iterator itCoche = coches.iterator();
-        Piloto piloto = (Piloto) itPiloto.next();;
+        Piloto piloto = (Piloto) itPiloto.next();
         Coche coche;
         boolean asignado = false;
         for(int i = 0; i<limite; i++){

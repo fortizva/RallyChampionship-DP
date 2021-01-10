@@ -27,8 +27,10 @@ public final class Organizacion
     private int limitePilotos;
     private ArrayList <Escuderia> escuderias;
     private TreeSet <Circuito> circuitos;
-    private TreeSet <Piloto> pilotosCarrera;
+    private ArrayList <Piloto> pilotosCarrera;
     private ArrayList <Piloto> pilotosDescalificados;
+
+    private Comparator<Piloto> compPilotos;
 
     /**
      * Constructor de una Organizacion vacía.
@@ -51,7 +53,8 @@ public final class Organizacion
         this.limitePilotos = limitePilotos;
         escuderias = new ArrayList <Escuderia>();
         circuitos = new TreeSet <Circuito>();
-        pilotosCarrera = new TreeSet <Piloto>(new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed()));
+        pilotosCarrera = new ArrayList <Piloto>();
+        compPilotos = new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed());
         pilotosDescalificados = new ArrayList <Piloto>(); 
     }
 
@@ -66,8 +69,8 @@ public final class Organizacion
         this.limitePilotos = limitePilotos;
         escuderias = new ArrayList <Escuderia>();
         circuitos = new TreeSet <Circuito>(comparador);
-        pilotosCarrera = new TreeSet <Piloto>(new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed()));
-
+        pilotosCarrera = new ArrayList <Piloto>();
+        compPilotos = new ComparadorAnidadoPiloto(new ComparadorPuntosPiloto().reversed());
         pilotosDescalificados = new ArrayList <Piloto>();
     }
 
@@ -86,8 +89,8 @@ public final class Organizacion
             instancia.setLimitePilotos(limitePilotos);
         }
     }
-    
-        /**
+
+    /**
      * Inicializa los valores de la instancia Organizacion o crea una nueva con los valores dados si no existe.
      * 
      * @param limiteAbandonos Límite de abandonos por piloto.
@@ -138,7 +141,7 @@ public final class Organizacion
             pilotosCarrera.add(p);
         }
     }
-    
+
     /**
      * Añade un o más circuitos al campeonato.
      * 
@@ -147,7 +150,7 @@ public final class Organizacion
     public void addCircuitos(Circuito... circuitos){
         this.circuitos.addAll(Arrays.asList(circuitos));
     }
-    
+
     /**
      * Elimina un circuito del campeonato.
      * 
@@ -234,10 +237,11 @@ public final class Organizacion
      * Pide a las escuderias que envien pilotos a la carrera.
      */
     public void llenarPista(){
-        this.pilotosCarrera = new TreeSet(this.pilotosCarrera.comparator());
+        this.pilotosCarrera = new ArrayList();
         for(Escuderia e: this.escuderias){
             e.obtenerParticipantes(this.limitePilotos);
         }
+        Collections.sort(this.pilotosCarrera, this.compPilotos);
     }
 
     /**
@@ -347,8 +351,18 @@ public final class Organizacion
             System.out.println("¡¡¡ Campeonato de pilotos queda desierto por haber sido descalificados todos los pilotos !!!!");
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         } else {
-            TreeSet<Piloto> ganadores = new TreeSet<Piloto>(new ComparadorPuntosPiloto());
-            ganadores.addAll(this.pilotosCarrera);
+            TreeSet<Piloto> ganadores = new TreeSet<Piloto>(new ComparadorPuntosPiloto().reversed());
+            ArrayList<Piloto> allPilotos = new ArrayList<Piloto>();
+
+            for(Escuderia e : this.escuderias){
+                allPilotos.addAll(e.getPilotos());
+            }
+
+            for(Piloto p : allPilotos){
+                if(!p.isDescalificado())
+                    ganadores.add(p);
+            }
+            
             int posicion = 1;
             for(Piloto p : ganadores){
                 System.out.println("@@@ Posición(" + posicion + "): " + p.getNombre() +" - Puntos Totales: " + p.getPuntos() + " @@@");

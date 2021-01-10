@@ -73,8 +73,6 @@ public abstract class PilotoAbstracto implements Piloto, Comparable<Piloto>
         for(Resultado r : this.resultados.values()){
             puntos += r.getPuntos();
         }
-
-        System.out.println(this.getNombre() + " TIENE " + puntos);
         return puntos;
     }
 
