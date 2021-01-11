@@ -11,5 +11,8 @@ Clase main: RallyChampionship
 Extras:		Hemos implementado más patrones de diseño aparte del Singleton usado en Organización.
 				- Existe un patrón Decorator para las complicaciones extra de los Circuitos.
 				- Hemos añadido un patrón Strategy para los distintos tipos de Coche cuyo cliente es Piloto.
+			
+			Se ha usado de forma correcta el tipo Iterator en Escudería para obtener los participantes (obtenerParticipantes())
+			
 			Además, este proyecto ha sido desarrollado completamente en Git a través de GitHub.
 				- https://github.com/fortizva/RallyChampionship-DP
