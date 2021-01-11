@@ -98,8 +98,6 @@ public class Escuderia implements Comparable<Escuderia>
      */
     public void actualizarPilotos(){
         Collections.sort(this.pilotos,this.compPilotos);
-        System.out.println("DEBUG: MOSTRANDO ESCUDERÍA "+ this.getNombre() +"PILOTOS");
-        System.out.println(this.pilotos);
     }
     
       /**
@@ -117,6 +115,7 @@ public class Escuderia implements Comparable<Escuderia>
     public int getPuntos(){
         int puntos = 0;
         for(Piloto p : pilotos){
+            if(!p.isDescalificado())
             puntos += p.getPuntos();
         }
         return puntos;
@@ -147,6 +146,7 @@ public class Escuderia implements Comparable<Escuderia>
      */
     public void addCoche(Coche coche){
         this.coches.add(coche);
+        actualizarCoches();
     }
 
     /**
@@ -156,6 +156,7 @@ public class Escuderia implements Comparable<Escuderia>
      */
     public void addPiloto(Piloto piloto){
         this.pilotos.add(piloto);
+        actualizarPilotos();
     }
 
     /**
@@ -165,7 +166,7 @@ public class Escuderia implements Comparable<Escuderia>
      */
     public boolean isDescalificada(){
         for(Piloto p : this.pilotos){
-            if(p.isDescalificado())
+            if(!p.isDescalificado())
                 return false;
         }
         return true;
@@ -191,6 +192,7 @@ public class Escuderia implements Comparable<Escuderia>
         Iterator itPiloto = this.pilotos.iterator();
         Iterator itCoche = coches.iterator();
         Piloto piloto = (Piloto) itPiloto.next();
+        Piloto aux = null;
         Coche coche;
         boolean asignado = false;
         for(int i = 0; i<limite; i++){
@@ -198,12 +200,13 @@ public class Escuderia implements Comparable<Escuderia>
                 piloto = (Piloto) itPiloto.next();
                 asignado = false;
             }
-            if(!piloto.isDescalificado()){
+            if(!piloto.isDescalificado() && !piloto.equals(aux)){
                 asignado = false;
                 while(itCoche.hasNext() && !asignado){
                     coche = (Coche) itCoche.next();
                     if(coche.getCombustibleActual() > 0){
                         piloto.setCoche(coche);
+                        aux = piloto;
                         asignado = true;
                         Organizacion.getInstance().enviarPiloto(piloto);
                     }

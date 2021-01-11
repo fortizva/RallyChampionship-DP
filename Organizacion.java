@@ -222,7 +222,8 @@ public final class Organizacion
             }
 
             //Obtener clasificación de la carrera y asignar puntos
-            clasificarCarrera(c);
+            if(keep)
+                clasificarCarrera(c);
 
             numeroTurno++;
         }
@@ -362,29 +363,33 @@ public final class Organizacion
                 if(!p.isDescalificado())
                     ganadores.add(p);
             }
-            
+
             int posicion = 1;
             for(Piloto p : ganadores){
                 System.out.println("@@@ Posición(" + posicion + "): " + p.getNombre() +" - Puntos Totales: " + p.getPuntos() + " @@@");
                 posicion++;
-                for(Resultado r : p.getResultados().values()){
+                
+                for(Circuito c: this.circuitos){
+                    Resultado r = p.getResultados().get(c.getNombre());
+                    if(r != null)  
                     System.out.println("Carrera(" + r.getCircuito().getNombre() + ") - Puntos:" + r.getPuntos() + " - Tiempo:" + r.getMinutos() + " minutos");
                 }
             }
+        }
+        System.out.println("****************************************************");
+        System.out.println("************** PILOTOS DESCALIFICADOS **************");
+        System.out.println("****************************************************");
 
-            System.out.println("****************************************************");
-            System.out.println("************** PILOTOS DESCALIFICADOS **************");
-            System.out.println("****************************************************");
-            for(Piloto p : this.pilotosDescalificados){
-                System.out.println("--- Piloto Descalificado: " + p.getNombre() + " - Puntos Totales Anulados: " + p.getPuntos() + " ---");
-                for(Resultado r : p.getResultados().values()){
-                    System.out.println("Carrera(" + r.getCircuito().getNombre() + ") - Puntos:" + r.getPuntos() + " - Tiempo:" + r.getMinutos() + " minutos");
-                }
+        for(Piloto p : this.pilotosDescalificados){
+            System.out.println("--- Piloto Descalificado: " + p.getNombre() + " - Puntos Totales Anulados: " + p.getPuntos() + " ---");
+            for(Resultado r : p.getResultados().values()){
+                System.out.println("Carrera(" + r.getCircuito().getNombre() + ") - Puntos:" + r.getPuntos() + " - Tiempo:" + r.getMinutos() + " minutos");
             }
         }
     }
 
     public void mostrarClasificacionFinalEscuderias(){
+        ArrayList<Escuderia> descalificadas = new ArrayList<Escuderia>();
         System.out.println("****************************************************");
         System.out.println("******** CLASIFICACIÓN FINAL DE ESCUDERÍAS *********");
         System.out.println("****************************************************");
@@ -393,13 +398,10 @@ public final class Organizacion
             System.out.println("¡¡¡ Campeonato de pilotos queda desierto por haber sido descalificados todos los pilotos !!!!");
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         } else{
-            TreeSet<Escuderia> ganadores = new TreeSet<Escuderia>(new ComparadorPuntosEscuderia());
-            ArrayList<Escuderia> descalificadas = new ArrayList<Escuderia>();
+            TreeSet<Escuderia> ganadores = new TreeSet<Escuderia>(new ComparadorPuntosEscuderia().reversed());
 
             for(Escuderia e : this.escuderias){
-                if(e.isDescalificada())
-                    descalificadas.add(e);
-                else                
+                if(!e.isDescalificada()) 
                     ganadores.add(e);
             }
 
@@ -411,17 +413,20 @@ public final class Organizacion
                 System.out.println(e.toString());
                 System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
             }
+        }
 
-            System.out.println("****************************************************");
-            System.out.println("************ ESCUDERIAS DESCALIFICADAS *************");
-            System.out.println("****************************************************");
-
-            for(Escuderia e : descalificadas){
-                System.out.println("¡¡¡ Escudería Descalificada: " + e.getNombre() + " con 0.0 puntos !!!");
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-                System.out.println(e.toString());
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-            }
+        System.out.println("****************************************************");
+        System.out.println("************ ESCUDERIAS DESCALIFICADAS *************");
+        System.out.println("****************************************************");
+        for(Escuderia e: this.escuderias){
+            if(e.isDescalificada())
+                descalificadas.add(e);
+        }
+        for(Escuderia e : descalificadas){
+            System.out.println("¡¡¡ Escudería Descalificada: " + e.getNombre() + " con 0.0 puntos !!!");
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+            System.out.println(e.toString());
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         }
     }
 

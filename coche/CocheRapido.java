@@ -42,7 +42,7 @@ public class CocheRapido extends AbstractCoche
             velocidadReal += porcentaje;
             this.nitroActual -= porcentaje;
         }
-        System.out.println("+++ El " + this.getNombre() +" usa " + porcentaje + " de nitro para alcanzar " + Math.round(velocidadReal*100d)/100d + " km/hora y el nitro restante es " + Math.round(this.nitroActual*100d)/100d + " +++");
+        System.out.println("+++ El " + this.getNombre() +" usa " + Math.round(porcentaje*100d)/100d + " de nitro para alcanzar " + Math.round(velocidadReal*100d)/100d + " km/hora y el nitro restante es " + Math.round(this.nitroActual*100d)/100d + " +++");
         return Math.round(velocidadReal*100d)/100d;
     } 
     
